@@ -13,24 +13,25 @@ const BulkEditTable = () => {
   console.log("incoiceList", invoiceList);
   const [editStates, setEditStates] = useState(() => {
     const initialEditState = {};
-    invoiceList.forEach((invoice) => {
-      console.log("ssd", invoice);
-      initialEditState[parseInt(invoice.invoiceNumber)] = { ...invoice };
-    });
-    return initialEditState;
+  invoiceList.forEach((invoice) => {
+    initialEditState[invoice.invoiceNumber] = {
+      ...invoice,
+      items: invoice.items.reduce((acc, item) => {
+        acc[item.itemId] = { ...item };
+        return acc;
+      }, {}),
+    };
+  });
+  return initialEditState;
   });
   console.log("editStates", editStates);
   const handleSave = () => {
-    console.log("asdf", Object.keys(editStates));
     Object.keys(editStates).forEach((invoiceNumber) => {
-      // console.log("invoiceNumber", invoiceNumber)
       const invoice = invoiceList.find(
         (invoice) => invoice.invoiceNumber === parseInt(invoiceNumber)
       );
-      // console.log('invoice', invoice)
       if (invoice) {
         const invoiceId = invoice.id;
-        console.log("Invoice ID:", invoiceId);
         dispatch(
           updateInvoice({
             id: invoiceId,
@@ -44,12 +45,12 @@ const BulkEditTable = () => {
     setEditStates({});
     navigate("/");
   };
-  console.log("loca", location.state);
+//   console.log("loca", location.state);
   const filteredInvoices = invoiceList.filter((invoice) => {
     console.log(invoice.invoiceNumber);
     return invoice.invoiceNumber == location.state;
   });
-  const handleEdit = (field, invoiceNumber, value) => {
+  const handleEdit = (field, invoiceNumber,value) => {
     setEditStates((prevState) => ({
       ...prevState,
       [invoiceNumber]: {
@@ -57,6 +58,26 @@ const BulkEditTable = () => {
         [field]: value,
       },
     }));
+  };
+  const handleItemEdit= (field, invoiceNumber, itemId, value) => {
+    setEditStates((prevState) => {
+        const updatedInvoice = {
+          ...prevState[invoiceNumber],
+          items: Array.isArray(prevState[invoiceNumber]?.items)
+            ? [...prevState[invoiceNumber].items]
+            : [],
+        };
+    
+        updatedInvoice.items[itemId] = {
+          ...prevState[invoiceNumber]?.items?.[itemId],
+          [field]: value,
+        };
+    
+        return {
+          ...prevState,
+          [invoiceNumber]: updatedInvoice,
+        };
+      });
   };
   const fieldDisplayNames = {
     itemId: "Item Number",
@@ -293,7 +314,7 @@ const BulkEditTable = () => {
                             ]?.[field] || item[field]
                           }
                           onChange={(e) =>
-                            handleEdit(
+                            handleItemEdit(
                               field,
                               invoice.invoiceNumber,
                               item.itemId,

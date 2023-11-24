@@ -7,7 +7,7 @@ import EditableField from "./EditableField";
 
 const InvoiceItem = (props) => {
   const { onItemizedItemEdit, currency, onRowDel, items, onRowAdd } = props;
-  // console.log("props",props)
+  
   const itemTable = items.map((item) => (
     <ItemRow
       key={item.id}
