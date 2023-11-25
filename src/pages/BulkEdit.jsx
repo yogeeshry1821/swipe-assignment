@@ -17,10 +17,13 @@ const BulkEdit = () => {
   };
   return (
     <div>
-      <div className="my-5">
+      <div className="my-3">
         <Button variant="link" onClick={handleGoBack}>
           Go Back
         </Button>
+      </div>
+      <div className="my-3 p-2 justify-content-center fs-4">
+        Select all the invoices you want to edit
       </div>
       <Table striped bordered hover>
         <thead>

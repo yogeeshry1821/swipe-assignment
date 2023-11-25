@@ -102,10 +102,10 @@ const BulkEditTable = () => {
             <thead>
               <tr>
                 <th className="m-2 p-2">Invoice Number</th>
-                <th>Bill To</th>
+                <th>Bill To Name</th>
                 <th>Bill To Address</th>
                 <th>Bill To Email</th>
-                <th>Bill From</th>
+                <th>Bill From Name</th>
                 <th>Bill From Address</th>
                 <th>Bill From Email</th>
                 <th>Due Date</th>
@@ -169,7 +169,7 @@ const BulkEditTable = () => {
                   </td>
                   <td>
                     <input
-                      type="text"
+                      type="email"
                       value={
                         editStates[invoice.invoiceNumber]?.billToEmail ||
                         invoice.billToEmail
@@ -217,7 +217,7 @@ const BulkEditTable = () => {
                   </td>
                   <td>
                     <input
-                      type="text"
+                      type="email"
                       value={
                         editStates[invoice.invoiceNumber]?.billFromEmail ||
                         invoice.billFromEmail
@@ -234,6 +234,7 @@ const BulkEditTable = () => {
                   <td>
                     <input
                       type="text"
+                      disabled="disabled"
                       value={
                         editStates[invoice.invoiceNumber]?.dateOfIssue ||
                         invoice.dateOfIssue
