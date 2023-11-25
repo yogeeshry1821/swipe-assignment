@@ -17,9 +17,7 @@ const InvoiceList = () => {
   const navigate = useNavigate();
   const [showBulkEdit, setShowBulkEdit] = useState(false);
   const handleBulkEdit = () => {
-    // console.log("LOL")
     setShowBulkEdit(true);
-    // console.log('setShowBulkEdit', setShowBulkEdit)
   };
   const handleCopyClick = () => {
     const invoice = getOneInvoice(copyId);

@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { Table, Button, Form } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { updateInvoice } from "../redux/invoicesSlice"; // Import your Redux actions
+import { useSelector } from "react-redux";
 import { selectInvoiceList } from "../redux/invoicesSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BulkEdit = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const invoiceList = useSelector(selectInvoiceList);
-  // console.log("here", invoiceList);
   const [selectedInvoices, setSelectedInvoices] = useState([]);
 
   const handleContinue = () => {
@@ -39,7 +36,7 @@ const BulkEdit = () => {
                       ? []
                       : invoiceList.map((invoice) => invoice.invoiceNumber)
                   );
-                  // console.log("Select", selectedInvoices)
+
                 }}
               />
             </th>
@@ -57,7 +54,6 @@ const BulkEdit = () => {
                   label={invoice.invoiceNumber}
                   checked={selectedInvoices.includes(invoice.invoiceNumber)}
                   onChange={(event) => {
-                    // console.log('checked', event.target.checked);
                     if (!event.target.checked) {
                       setSelectedInvoices(
                         selectedInvoices.filter((inv) => {

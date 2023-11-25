@@ -2,28 +2,23 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { selectInvoiceList, updateInvoice } from "../redux/invoicesSlice";
-import { Table, Row, Button } from "react-bootstrap";
-import invoicesSlice from "./../redux/invoicesSlice";
+import { Table,  Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 const BulkEditTable = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const invoiceList = useSelector(selectInvoiceList);
   const dispatch = useDispatch();
-  // console.log("incoiceList", invoiceList);
   const [editStates, setEditStates] = useState(() => {
     const initialEditState = {};
     invoiceList.forEach((invoice) => {
       initialEditState[invoice.invoiceNumber] = {
         ...invoice,
         items: [...invoice.items]
-        //  invoice.items.map((item) => {return   { ...item }}),
       };
     });
     return initialEditState;
   });
-  // console.log("location.state", location.state);
-  // console.log("editStates", editStates);
   const handleSave = () => {
     Object.keys(editStates).forEach((invoiceNumber) => {
       const invoice = invoiceList.find(
@@ -40,18 +35,14 @@ const BulkEditTable = () => {
       }
     });
 
-    // console.log("Saved data:", editStates);
     setEditStates({});
     alert("redirecting to home page....");
     navigate("/");
   };
-  //   console.log("loca", location.state);
   const filteredInvoices = invoiceList.filter((invoice) => {
     return location.state.includes(invoice.invoiceNumber);
   });
-  // console.log("filteredInvoices", filteredInvoices);
   const handleEdit = (field, invoiceNumber, value) => {
-    console.log("editStates1", editStates);
     setEditStates((prevState) => ({
       ...prevState,
       [invoiceNumber]: {
@@ -60,7 +51,6 @@ const BulkEditTable = () => {
       },
     }));
 
-    console.log("editStates2", editStates);
   };
   const handleItemEdit = (field, invoiceNumber, itemId, value) => {
     setEditStates((prevState) => {
@@ -78,7 +68,6 @@ const BulkEditTable = () => {
         [field]: value,
       };
 
-      console.log("updatedInvoice", updatedInvoice);
 
       return {
         ...prevState,
@@ -99,7 +88,6 @@ const BulkEditTable = () => {
     .map((invoice) => invoice.items.length)
     .reduce((acc, currVal) => Math.max(acc, currVal), 0);
 
-  // console.log('filteredInvoices', filteredInvoices)
   return (
     <>
       <Button variant="link" onClick={handleGoBack}>
@@ -127,7 +115,6 @@ const BulkEditTable = () => {
                 <th>Discount Rate</th>
                 {Array.apply(null, Array(maxLengthItems)).map((_, index) =>
                   Object.keys(fieldDisplayNames).map((field) => {
-                    // console.log("x", x);
                     return (
                       <th>
                         {fieldDisplayNames[field]} {index + 1}
