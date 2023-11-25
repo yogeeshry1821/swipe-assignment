@@ -24,6 +24,7 @@ const BulkEditTable = () => {
   });
   return initialEditState;
   });
+  console.log("location.state",location.state)
   console.log("editStates", editStates);
   const handleSave = () => {
     Object.keys(editStates).forEach((invoiceNumber) => {
@@ -47,9 +48,11 @@ const BulkEditTable = () => {
   };
 //   console.log("loca", location.state);
   const filteredInvoices = invoiceList.filter((invoice) => {
-    console.log(invoice.invoiceNumber);
-    return invoice.invoiceNumber == location.state;
+    // console.log("invoice.invoiceNumber",invoice.invoiceNumber);
+    // console.log("invoice.invoiceNumber == location.state", location.state.includes(invoice.invoiceNumber))
+    return location.state.includes(invoice.invoiceNumber);
   });
+  console.log("filteredInvoices",filteredInvoices)
   const handleEdit = (field, invoiceNumber,value) => {
     setEditStates((prevState) => ({
       ...prevState,
@@ -63,16 +66,17 @@ const BulkEditTable = () => {
     setEditStates((prevState) => {
         const updatedInvoice = {
           ...prevState[invoiceNumber],
+          //check is the items array an array or not
           items: Array.isArray(prevState[invoiceNumber]?.items)
             ? [...prevState[invoiceNumber].items]
             : [],
         };
-    
+        //update the edited values in items array 
         updatedInvoice.items[itemId] = {
           ...prevState[invoiceNumber]?.items?.[itemId],
           [field]: value,
         };
-    
+        
         return {
           ...prevState,
           [invoiceNumber]: updatedInvoice,
